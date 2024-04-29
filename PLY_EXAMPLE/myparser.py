@@ -4,7 +4,7 @@ from mylexer import tokens
 # Definició de la gramàtica
 
 def p_statement_print(p):
-    'statement : PRINT expr SEMI'
+    'program : PRINT expr SEMI'
 
     print("Imprimir:", p[2])
 
