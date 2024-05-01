@@ -175,6 +175,7 @@ pyrightconfig.json
 example
 example.output
 example.tab.h
+example.tab.c
 lex.yy.c
 parser.out
-parsertab.py
+parsetab.py
