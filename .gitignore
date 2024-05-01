@@ -171,3 +171,10 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+example
+example.output
+example.tab.h
+lex.yy.c
+parser.out
+parsertab.py
