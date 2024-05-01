@@ -6,6 +6,7 @@
 #define MINUS 259
 #define INTEGER 260
 #define SEMI 261
+#define UMINUS 262
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

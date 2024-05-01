@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'INTEGER MINUS PLUS PRINT SEMIstatement : PRINT expr SEMIexpr : expr PLUS expr\n            | expr MINUS expr\n            | INTEGER'
+_lr_signature = 'leftPLUSMINUSrightUMINUSINTEGER MINUS PLUS PRINT SEMIprogram : PRINT expr SEMI\n               | error SEMIexpr : expr PLUS expr\n            | expr MINUS expr\n            | MINUS expr %prec UMINUS\n            | INTEGER'
     
-_lr_action_items = {'PRINT':([0,],[2,]),'$end':([1,5,],[0,-1,]),'INTEGER':([2,6,7,],[4,4,4,]),'SEMI':([3,4,8,9,],[5,-4,-2,-3,]),'PLUS':([3,4,8,9,],[6,-4,6,6,]),'MINUS':([3,4,8,9,],[7,-4,7,7,]),}
+_lr_action_items = {'PRINT':([0,],[2,]),'error':([0,],[3,]),'$end':([1,7,8,],[0,-2,-1,]),'MINUS':([2,4,5,6,9,10,11,12,13,],[5,10,5,-6,5,5,-5,-3,-4,]),'INTEGER':([2,5,9,10,],[6,6,6,6,]),'SEMI':([3,4,6,11,12,13,],[7,8,-6,-5,-3,-4,]),'PLUS':([4,6,11,12,13,],[9,-6,-5,-3,-4,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expr':([2,6,7,],[3,8,9,]),}
+_lr_goto_items = {'program':([0,],[1,]),'expr':([2,5,9,10,],[4,11,12,13,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,9 +26,11 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
-  ('statement -> PRINT expr SEMI','statement',3,'p_statement_print','myparser.py',6),
-  ('expr -> expr PLUS expr','expr',3,'p_expr','myparser.py',10),
-  ('expr -> expr MINUS expr','expr',3,'p_expr','myparser.py',11),
-  ('expr -> INTEGER','expr',1,'p_expr','myparser.py',12),
+  ("S' -> program","S'",1,None,None,None),
+  ('program -> PRINT expr SEMI','program',3,'p_program','myparser.py',11),
+  ('program -> error SEMI','program',2,'p_program','myparser.py',12),
+  ('expr -> expr PLUS expr','expr',3,'p_expr','myparser.py',17),
+  ('expr -> expr MINUS expr','expr',3,'p_expr','myparser.py',18),
+  ('expr -> MINUS expr','expr',2,'p_expr','myparser.py',19),
+  ('expr -> INTEGER','expr',1,'p_expr','myparser.py',20),
 ]

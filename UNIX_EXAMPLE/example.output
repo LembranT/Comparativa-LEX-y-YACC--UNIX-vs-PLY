@@ -1,94 +1,131 @@
    0  $accept : program $end
 
    1  program : PRINT expr SEMI
+   2          | error SEMI
 
-   2  expr : expr PLUS expr
-   3       | expr MINUS expr
-   4       | INTEGER
+   3  expr : expr PLUS expr
+   4       | expr MINUS expr
+   5       | MINUS expr
+   6       | INTEGER
 
 state 0
 	$accept : . program $end  (0)
 
-	PRINT  shift 1
+	error  shift 1
+	PRINT  shift 2
 	.  error
 
-	program  goto 2
+	program  goto 3
 
 
 state 1
-	program : PRINT . expr SEMI  (1)
+	program : error . SEMI  (2)
 
-	INTEGER  shift 3
+	SEMI  shift 4
 	.  error
-
-	expr  goto 4
 
 
 state 2
+	program : PRINT . expr SEMI  (1)
+
+	MINUS  shift 5
+	INTEGER  shift 6
+	.  error
+
+	expr  goto 7
+
+
+state 3
 	$accept : program . $end  (0)
 
 	$end  accept
 
 
-state 3
-	expr : INTEGER .  (4)
-
-	.  reduce 4
-
-
 state 4
-	program : PRINT expr . SEMI  (1)
-	expr : expr . PLUS expr  (2)
-	expr : expr . MINUS expr  (3)
+	program : error SEMI .  (2)
 
-	PLUS  shift 5
-	MINUS  shift 6
-	SEMI  shift 7
-	.  error
+	.  reduce 2
 
 
 state 5
-	expr : expr PLUS . expr  (2)
+	expr : MINUS . expr  (5)
 
-	INTEGER  shift 3
+	MINUS  shift 5
+	INTEGER  shift 6
 	.  error
 
 	expr  goto 8
 
 
 state 6
-	expr : expr MINUS . expr  (3)
+	expr : INTEGER .  (6)
 
-	INTEGER  shift 3
-	.  error
-
-	expr  goto 9
+	.  reduce 6
 
 
 state 7
+	program : PRINT expr . SEMI  (1)
+	expr : expr . PLUS expr  (3)
+	expr : expr . MINUS expr  (4)
+
+	PLUS  shift 9
+	MINUS  shift 10
+	SEMI  shift 11
+	.  error
+
+
+state 8
+	expr : expr . PLUS expr  (3)
+	expr : expr . MINUS expr  (4)
+	expr : MINUS expr .  (5)
+
+	.  reduce 5
+
+
+state 9
+	expr : expr PLUS . expr  (3)
+
+	MINUS  shift 5
+	INTEGER  shift 6
+	.  error
+
+	expr  goto 12
+
+
+state 10
+	expr : expr MINUS . expr  (4)
+
+	MINUS  shift 5
+	INTEGER  shift 6
+	.  error
+
+	expr  goto 13
+
+
+state 11
 	program : PRINT expr SEMI .  (1)
 
 	.  reduce 1
 
 
-state 8
-	expr : expr . PLUS expr  (2)
-	expr : expr PLUS expr .  (2)
-	expr : expr . MINUS expr  (3)
-
-	.  reduce 2
-
-
-state 9
-	expr : expr . PLUS expr  (2)
-	expr : expr . MINUS expr  (3)
-	expr : expr MINUS expr .  (3)
+state 12
+	expr : expr . PLUS expr  (3)
+	expr : expr PLUS expr .  (3)
+	expr : expr . MINUS expr  (4)
 
 	.  reduce 3
 
 
-7 terminals, 3 nonterminals
-5 grammar rules, 10 states
+state 13
+	expr : expr . PLUS expr  (3)
+	expr : expr . MINUS expr  (4)
+	expr : expr MINUS expr .  (4)
+
+	.  reduce 4
+
+
+8 terminals, 3 nonterminals
+7 grammar rules, 14 states
 
 grammar parser grammar
 symbol# value# symbol
@@ -99,6 +136,7 @@ symbol# value# symbol
      4    259  MINUS
      5    260  INTEGER
      6    261  SEMI
-     7    262  $accept
-     8    263  program
-     9    264  expr
+     7    262  UMINUS
+     8    263  $accept
+     9    264  program
+    10    265  expr

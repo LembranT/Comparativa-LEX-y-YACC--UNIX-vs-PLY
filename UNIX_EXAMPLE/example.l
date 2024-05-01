@@ -2,6 +2,10 @@
 #include "example.tab.h"
 %}
 
+%option nounput
+%option noinput
+%option noyywrap
+
 DIGIT           [0-9]
 WHITE_SPACE     [ \t]
 
@@ -32,7 +36,7 @@ WHITE_SPACE     [ \t]
 
 .           {
                 // Gestió d'errors
-                printf("Illegal character '%c'\n", t->value[0]);
+                printf("Illegal character '%c'\n", yytext[0]);
             }
 %%
 

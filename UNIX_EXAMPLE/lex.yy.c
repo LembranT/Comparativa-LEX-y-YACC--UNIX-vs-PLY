@@ -669,7 +669,7 @@ YY_DECL
 		}
 
 	{
-#line 13 "example.l"
+#line 12 "example.l"
 
 
 #line 675 "lex.yy.c"
@@ -731,12 +731,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 15 "example.l"
-/* Ignorar espacios y tabulaciones */
+#line 14 "example.l"
+
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "example.l"
+#line 16 "example.l"
 { 
                 yylval.valor = atoi(yytext);
                 return INTEGER;
@@ -744,45 +744,46 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 22 "example.l"
+#line 21 "example.l"
 { 
                 return PLUS;
             }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 26 "example.l"
+#line 25 "example.l"
 { 
                 return MINUS;
             }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 30 "example.l"
+#line 29 "example.l"
 { 
                 return PRINT;
             }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 34 "example.l"
+#line 33 "example.l"
 {   
                 return SEMI;
             }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 38 "example.l"
+#line 37 "example.l"
 {
-                return yytext[0];
+                // Gestió d'errors
+                printf("Illegal character '%c'\n", yytext[0]);
             }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 42 "example.l"
+#line 41 "example.l"
 ECHO;
 	YY_BREAK
-#line 785 "lex.yy.c"
+#line 786 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1750,7 +1751,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 42 "example.l"
+#line 41 "example.l"
 
 
 

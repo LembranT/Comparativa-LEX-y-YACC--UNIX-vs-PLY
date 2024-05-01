@@ -2,138 +2,178 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Grammar
 
-Rule 0     S' -> statement
-Rule 1     statement -> PRINT expr SEMI
-Rule 2     expr -> expr PLUS expr
-Rule 3     expr -> expr MINUS expr
-Rule 4     expr -> INTEGER
+Rule 0     S' -> program
+Rule 1     program -> PRINT expr SEMI
+Rule 2     program -> error SEMI
+Rule 3     expr -> expr PLUS expr
+Rule 4     expr -> expr MINUS expr
+Rule 5     expr -> MINUS expr
+Rule 6     expr -> INTEGER
 
 Terminals, with rules where they appear
 
-INTEGER              : 4
-MINUS                : 3
-PLUS                 : 2
+INTEGER              : 6
+MINUS                : 4 5
+PLUS                 : 3
 PRINT                : 1
-SEMI                 : 1
-error                : 
+SEMI                 : 1 2
+error                : 2
 
 Nonterminals, with rules where they appear
 
-expr                 : 1 2 2 3 3
-statement            : 0
+expr                 : 1 3 3 4 4 5
+program              : 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . statement
-    (1) statement -> . PRINT expr SEMI
+    (0) S' -> . program
+    (1) program -> . PRINT expr SEMI
+    (2) program -> . error SEMI
 
     PRINT           shift and go to state 2
+    error           shift and go to state 3
 
-    statement                      shift and go to state 1
+    program                        shift and go to state 1
 
 state 1
 
-    (0) S' -> statement .
+    (0) S' -> program .
 
 
 
 state 2
 
-    (1) statement -> PRINT . expr SEMI
-    (2) expr -> . expr PLUS expr
-    (3) expr -> . expr MINUS expr
-    (4) expr -> . INTEGER
+    (1) program -> PRINT . expr SEMI
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . expr MINUS expr
+    (5) expr -> . MINUS expr
+    (6) expr -> . INTEGER
 
-    INTEGER         shift and go to state 4
+    MINUS           shift and go to state 5
+    INTEGER         shift and go to state 6
 
-    expr                           shift and go to state 3
+    expr                           shift and go to state 4
 
 state 3
 
-    (1) statement -> PRINT expr . SEMI
-    (2) expr -> expr . PLUS expr
-    (3) expr -> expr . MINUS expr
+    (2) program -> error . SEMI
 
-    SEMI            shift and go to state 5
-    PLUS            shift and go to state 6
-    MINUS           shift and go to state 7
+    SEMI            shift and go to state 7
 
 
 state 4
 
-    (4) expr -> INTEGER .
+    (1) program -> PRINT expr . SEMI
+    (3) expr -> expr . PLUS expr
+    (4) expr -> expr . MINUS expr
 
-    SEMI            reduce using rule 4 (expr -> INTEGER .)
-    PLUS            reduce using rule 4 (expr -> INTEGER .)
-    MINUS           reduce using rule 4 (expr -> INTEGER .)
+    SEMI            shift and go to state 8
+    PLUS            shift and go to state 9
+    MINUS           shift and go to state 10
 
 
 state 5
 
-    (1) statement -> PRINT expr SEMI .
+    (5) expr -> MINUS . expr
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . expr MINUS expr
+    (5) expr -> . MINUS expr
+    (6) expr -> . INTEGER
 
-    $end            reduce using rule 1 (statement -> PRINT expr SEMI .)
+    MINUS           shift and go to state 5
+    INTEGER         shift and go to state 6
 
+    expr                           shift and go to state 11
 
 state 6
 
-    (2) expr -> expr PLUS . expr
-    (2) expr -> . expr PLUS expr
-    (3) expr -> . expr MINUS expr
-    (4) expr -> . INTEGER
+    (6) expr -> INTEGER .
 
-    INTEGER         shift and go to state 4
+    SEMI            reduce using rule 6 (expr -> INTEGER .)
+    PLUS            reduce using rule 6 (expr -> INTEGER .)
+    MINUS           reduce using rule 6 (expr -> INTEGER .)
 
-    expr                           shift and go to state 8
 
 state 7
 
-    (3) expr -> expr MINUS . expr
-    (2) expr -> . expr PLUS expr
-    (3) expr -> . expr MINUS expr
-    (4) expr -> . INTEGER
+    (2) program -> error SEMI .
 
-    INTEGER         shift and go to state 4
+    $end            reduce using rule 2 (program -> error SEMI .)
 
-    expr                           shift and go to state 9
 
 state 8
 
-    (2) expr -> expr PLUS expr .
-    (2) expr -> expr . PLUS expr
-    (3) expr -> expr . MINUS expr
+    (1) program -> PRINT expr SEMI .
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-    SEMI            reduce using rule 2 (expr -> expr PLUS expr .)
-    PLUS            shift and go to state 6
-    MINUS           shift and go to state 7
-
-  ! PLUS            [ reduce using rule 2 (expr -> expr PLUS expr .) ]
-  ! MINUS           [ reduce using rule 2 (expr -> expr PLUS expr .) ]
+    $end            reduce using rule 1 (program -> PRINT expr SEMI .)
 
 
 state 9
 
-    (3) expr -> expr MINUS expr .
-    (2) expr -> expr . PLUS expr
-    (3) expr -> expr . MINUS expr
+    (3) expr -> expr PLUS . expr
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . expr MINUS expr
+    (5) expr -> . MINUS expr
+    (6) expr -> . INTEGER
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-    SEMI            reduce using rule 3 (expr -> expr MINUS expr .)
-    PLUS            shift and go to state 6
-    MINUS           shift and go to state 7
+    MINUS           shift and go to state 5
+    INTEGER         shift and go to state 6
 
-  ! PLUS            [ reduce using rule 3 (expr -> expr MINUS expr .) ]
-  ! MINUS           [ reduce using rule 3 (expr -> expr MINUS expr .) ]
+    expr                           shift and go to state 12
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 8 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 8 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 9 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 9 resolved as shift
+state 10
+
+    (4) expr -> expr MINUS . expr
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . expr MINUS expr
+    (5) expr -> . MINUS expr
+    (6) expr -> . INTEGER
+
+    MINUS           shift and go to state 5
+    INTEGER         shift and go to state 6
+
+    expr                           shift and go to state 13
+
+state 11
+
+    (5) expr -> MINUS expr .
+    (3) expr -> expr . PLUS expr
+    (4) expr -> expr . MINUS expr
+
+    SEMI            reduce using rule 5 (expr -> MINUS expr .)
+    PLUS            reduce using rule 5 (expr -> MINUS expr .)
+    MINUS           reduce using rule 5 (expr -> MINUS expr .)
+
+  ! PLUS            [ shift and go to state 9 ]
+  ! MINUS           [ shift and go to state 10 ]
+
+
+state 12
+
+    (3) expr -> expr PLUS expr .
+    (3) expr -> expr . PLUS expr
+    (4) expr -> expr . MINUS expr
+
+    SEMI            reduce using rule 3 (expr -> expr PLUS expr .)
+    PLUS            reduce using rule 3 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 3 (expr -> expr PLUS expr .)
+
+  ! PLUS            [ shift and go to state 9 ]
+  ! MINUS           [ shift and go to state 10 ]
+
+
+state 13
+
+    (4) expr -> expr MINUS expr .
+    (3) expr -> expr . PLUS expr
+    (4) expr -> expr . MINUS expr
+
+    SEMI            reduce using rule 4 (expr -> expr MINUS expr .)
+    PLUS            reduce using rule 4 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 4 (expr -> expr MINUS expr .)
+
+  ! PLUS            [ shift and go to state 9 ]
+  ! MINUS           [ shift and go to state 10 ]
+
